@@ -58,7 +58,6 @@ public class ReceiveChequeJFrame extends javax.swing.JFrame {
         jTServerState = new javax.swing.JTextArea();
         jPanel2 = new javax.swing.JPanel();
         jBRecieve = new javax.swing.JButton();
-        jCheckBox1 = new javax.swing.JCheckBox();
         jPanel3 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
 
@@ -82,10 +81,6 @@ public class ReceiveChequeJFrame extends javax.swing.JFrame {
             }
         });
 
-        jCheckBox1.setText(" Time out enable");
-        jCheckBox1.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        jCheckBox1.setMargin(new java.awt.Insets(0, 0, 0, 0));
-
         org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -93,8 +88,7 @@ public class ReceiveChequeJFrame extends javax.swing.JFrame {
             .add(jPanel2Layout.createSequentialGroup()
                 .add(40, 40, 40)
                 .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, jBRecieve, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, jCheckBox1))
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, jBRecieve, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(40, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -102,7 +96,6 @@ public class ReceiveChequeJFrame extends javax.swing.JFrame {
             .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel2Layout.createSequentialGroup()
                 .add(jBRecieve, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 50, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 10, Short.MAX_VALUE)
-                .add(jCheckBox1)
                 .addContainerGap())
         );
 
@@ -209,7 +202,6 @@ public class ReceiveChequeJFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBRecieve;
     private javax.swing.JButton jButton1;
-    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
