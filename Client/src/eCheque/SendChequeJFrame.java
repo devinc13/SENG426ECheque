@@ -296,7 +296,7 @@ public class SendChequeJFrame extends javax.swing.JFrame {
             else
             {
                 // you have to select cheque first
-                JOptionPane.showMessageDialog(null,"Youhave to");
+                JOptionPane.showMessageDialog(null,"You have to attach a cheque first.");
             }
             
                      
