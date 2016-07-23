@@ -84,10 +84,11 @@ import java.io.*;
          }
 
          public SecretKeySpec inilizeAESKeyByPassword(String pass){
-            
-            byte[] KeyData =pass.getBytes();
-            SecretKeySpec aesKey;
-            aesKey =new SecretKeySpec(KeyData,"AES");
+            SecretKeySpec aesKey = null;
+            if (pass != null && pass.length() > 0) {
+              byte[] KeyData =pass.getBytes();
+              aesKey =new SecretKeySpec(KeyData,"AES");
+            }
             return aesKey;
          }
 
