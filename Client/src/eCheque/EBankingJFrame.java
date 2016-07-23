@@ -216,7 +216,7 @@ public class EBankingJFrame extends javax.swing.JFrame {
             }
         }
         else{
-            JOptionPane.showMessageDialog(null,"You have to enter the bank URl or IP","User Error",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,"You have to enter the bank URL or IP address","User Error",JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jBSubmitActionPerformed
 
@@ -240,7 +240,7 @@ public class EBankingJFrame extends javax.swing.JFrame {
         selectChequeFlag = true;
         }
         catch(IOException exp){
-            JOptionPane.showMessageDialog(null,"can not load the cheque","System Error",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Can not load the cheque","System Error",JOptionPane.ERROR_MESSAGE);
             selectChequeFlag = false;
         }
         catch(ClassNotFoundException exp){
