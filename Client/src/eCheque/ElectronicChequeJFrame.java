@@ -296,26 +296,34 @@ public class ElectronicChequeJFrame extends javax.swing.JFrame {
     private void jBEBankingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBEBankingActionPerformed
 // TODO add your handling code here:
         if(activationDone)
-        eBankingWindow.setVisible(true);
+        	eBankingWindow.setVisible(true);
+        else
+            JOptionPane.showMessageDialog(null,"Please log in to access this feature.","Access Denied", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jBEBankingActionPerformed
 
     private void jBReceivedChequeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBReceivedChequeMouseClicked
 // TODO add your handling code here:
         if(activationDone)
-        receiveChequeWindow.setVisible(true);
+        	receiveChequeWindow.setVisible(true);
+        else
+            JOptionPane.showMessageDialog(null,"Please log in to access this feature.","Access Denied", JOptionPane.INFORMATION_MESSAGE);
              
     }//GEN-LAST:event_jBReceivedChequeMouseClicked
 
     private void jBSendChequeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBSendChequeMouseClicked
 // TODO add your handling code here:
         if(activationDone)
-        sendChequeWindow.setVisible(true);
+        	sendChequeWindow.setVisible(true);
+        else
+            JOptionPane.showMessageDialog(null,"Please log in to access this feature.","Access Denied", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jBSendChequeMouseClicked
 
     private void jBDrawChequeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBDrawChequeMouseClicked
 // TODO add your handling code here:
         if(activationDone)
-        eChequeWindow.setVisible(true);
+        	eChequeWindow.setVisible(true);
+        else
+            JOptionPane.showMessageDialog(null,"Please log in to access this feature.","Access Denied", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jBDrawChequeMouseClicked
 
     private void jBActivatonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBActivatonMouseClicked
