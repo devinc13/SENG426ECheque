@@ -175,12 +175,12 @@ private OutputStream socketOutput;
                     +recivedCehq.getaccountNumber()+"','"+recivedCehq.getchequeNumber()+"')";
          EChequeDB chqDB = new EChequeDB();
          if(chqDB.runDB(1,cancelChequeStat)){
-            socketOutputObject.writeObject("cheque canceld done");
+            socketOutputObject.writeObject("Cheque cancelled.");
             socketOutputObject.flush();
          
          }
          else{
-            socketOutputObject.writeObject("sorry cheque not canceled");
+            socketOutputObject.writeObject("Cheque not cancelled. You can only cancel cheques that have been sent.");
             socketOutputObject.flush();
          }
          
