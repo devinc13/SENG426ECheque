@@ -420,14 +420,6 @@ public class ChequeJFrame extends javax.swing.JFrame {
         });
         jMenu1.add(jMVerifyCheque);
 
-        jMExitChequeForm.setText("Exit");
-        jMExitChequeForm.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMExitChequeFormActionPerformed(evt);
-            }
-        });
-        jMenu1.add(jMExitChequeForm);
-
         jMenuBar1.add(jMenu1);
 
         setJMenuBar(jMenuBar1);
