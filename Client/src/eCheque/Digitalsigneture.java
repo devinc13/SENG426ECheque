@@ -24,6 +24,9 @@ public class Digitalsigneture
 //this function use to sign  cheque data by  RSA algorthem 
     public byte[] signeture(String message, PrivateKey privKey)throws Exception
     {
+    	 if (message.equals("")) {
+    		 throw new IllegalArgumentException(); 
+    	 }
          Signature signmessage = Signature.getInstance("SHA1withRSA");
          signmessage.initSign(privKey);
          signmessage.update(message.getBytes());
@@ -36,6 +39,9 @@ public class Digitalsigneture
          public boolean verifySignature(byte[]messagesign,String message,PublicKey pubKey)
          throws Exception
          {
+        	 if (message.equals("")) {
+        		 throw new IllegalArgumentException(); 
+        	 }
              Signature veryMessage = Signature.getInstance("SHA1withRSA");
              veryMessage.initVerify(pubKey);
              veryMessage.update(message.getBytes());
@@ -49,15 +55,3 @@ public class Digitalsigneture
          }
              
 }
-   
-    
-    
-    
-    
-    
-    
-    
- 
-    
-    
-
