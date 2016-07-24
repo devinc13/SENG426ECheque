@@ -26,7 +26,7 @@ import javax.swing.JTextArea;
 public class EChequeDB {
     
     private static final String JDBC_DRIVER ="com.mysql.jdbc.Driver";   
-    private static final String DATABASE_URL = "jdbc:mysql://roberts.seng.uvic.ca/se426g03";
+    private static final String DATABASE_URL = "jdbc:mysql://localhost/ebank";
     private String userName;
     private String password;
     private Connection connection = null; 
@@ -36,8 +36,8 @@ public class EChequeDB {
     
     /** Creates a new instance of EChequeDB */
     public EChequeDB() {
-        userName ="se426g03";
-        password="cUOhIhRR";
+        userName ="root";
+        password="root";
         
     }
     
@@ -84,9 +84,8 @@ public class EChequeDB {
     
     }
     
-    public boolean runDB(int mode, String databaseStat){
+    public String runDB(int mode, String databaseStat){
         databaseMode = mode;
-        boolean flag= false;
         try{
             connectToDataBase();
             //JOptionPane.showMessageDialog(null,"You are connected to e-Cheque Bank DB","DB State",JOptionPane.INFORMATION_MESSAGE);
@@ -95,26 +94,25 @@ public class EChequeDB {
                  
             // run the specific sql statment
             executeSQLStatment(databaseStat,databaseMode);
-            flag = true;
+            closeDataBaseConnection();
+            return "success";
         }
         catch(ClassNotFoundException exp){
             //JOptionPane.showMessageDialog(null,exp.getMessage(),"DB Error",JOptionPane.ERROR_MESSAGE);
             exp.printStackTrace();
-            
+            closeDataBaseConnection();
+            return "Error";
         }
         catch(SQLException exp){
             //JOptionPane.showMessageDialog(null,exp.getMessage(),"DB Error",JOptionPane.ERROR_MESSAGE);
             exp.printStackTrace();
-                    
-        }
-        finally{
-            
             closeDataBaseConnection();
-            if(flag)
-                return true;
-            else
-                return false;
-        }         
+            if (exp.getSQLState().equals("23000")) {
+            	return "That account number is already in use, please use a different one";
+            }
+            
+            return "Error";        
+        }      
     }
     
     public boolean runDB(int mode, String databaseStat, double[]balance){

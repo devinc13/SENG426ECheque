@@ -88,20 +88,26 @@ private OutputStream socketOutput;
           
           DigitalCertificate registDC = (DigitalCertificate)socketInputObject.readObject();
           
+          
+          
           String registerStat ="insert into accounts(accountID,clientName,dcPath,balance) values("+
                   accountID+clientName+cerit+100000+")";
           
           // starting database
           EChequeDB chqDB = new EChequeDB();
-          chqDB.runDB(1,registerStat);
-          
-          //store client digital certificate
-          DigitalCertificateIO dcIO = new DigitalCertificateIO();
-          dcIO.SaveDC(registDC,"Bank\\"+registerClient.getClientName()+"DC.edc");
-          
-          socketOutputObject.writeObject("registeration complete");
-          socketOutputObject.flush();
-          //JOptionPane.showMessageDialog(null,"Register Done");
+          String response = chqDB.runDB(1,registerStat);
+                    
+          if (response.equals("success")) {
+	          //store client digital certificate
+	          DigitalCertificateIO dcIO = new DigitalCertificateIO();
+	          dcIO.SaveDC(registDC,"Bank\\"+registerClient.getClientName()+"DC.edc");
+	          
+	          socketOutputObject.writeObject("registeration complete");
+	          socketOutputObject.flush();
+          } else {
+	    	  socketOutputObject.writeObject(response);
+	          socketOutputObject.flush(); 
+          }
         
  }
  
@@ -174,7 +180,7 @@ private OutputStream socketOutput;
          cancelChequeStat = "insert into cancelledCheque (accountID,chequeID) values('"
                     +recivedCehq.getaccountNumber()+"','"+recivedCehq.getchequeNumber()+"')";
          EChequeDB chqDB = new EChequeDB();
-         if(chqDB.runDB(1,cancelChequeStat)){
+         if(chqDB.runDB(1,cancelChequeStat).equals("success")){
             socketOutputObject.writeObject("Cheque cancelled.");
             socketOutputObject.flush();
          
