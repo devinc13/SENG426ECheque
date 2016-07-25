@@ -200,7 +200,8 @@ public class AESCryptTest extends TestCase {
 		cipher.init(Cipher.DECRYPT_MODE, key);
 		
 		// Create input and output streams. Input stream is encrypted version of the string "test"
-		InputStream in = new ByteArrayInputStream("—®yL…/—¹–zÔðµ#7".getBytes());		OutputStream out = new ByteArrayOutputStream();
+		InputStream in = new ByteArrayInputStream("—®yL…/—¹–zÔðµ#7".getBytes());		
+		OutputStream out = new ByteArrayOutputStream();
 		
 		// Run crypt
 		aesCrypt.crypt(in, out, cipher);
