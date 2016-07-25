@@ -386,45 +386,45 @@ public class RegistrationJFrame extends javax.swing.JFrame {
    	 	String passTemp2="";
         
         // Bank Name
-        if(bankName.matches("[^a-zA-Z- ]") && !bankName.isEmpty()){
+        if(!bankName.matches("[a-zA-Z ]*$") && !bankName.isEmpty()){
         	errorMessages.add("Bank name cannot contain special characters");                   
         }else if(bankName.isEmpty()){
         	errorMessages.add("Bank name cannot be empty");              
         }
         
         // Bank URL/IP
-        if(!bankURL.matches("^localhost$|\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}") || bankURL.isEmpty()){
+        if(!bankURL.matches("^localhost$|^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$") || bankURL.isEmpty()){
         	errorMessages.add("Bank URL/IP address is invalid");
         }
         
         // Client Name
-        if(clientName.matches("[^a-zA-Z- ]") && !clientName.isEmpty()){
+        if(!clientName.matches("[a-zA-Z ]*$") && !clientName.isEmpty()){
         	errorMessages.add("Client name cannot contain special characters");
         }else if(clientName.isEmpty()){
         	errorMessages.add("Client name cannot be empty");              
         }
         
         // Account Number
-        if(accountNumber.matches("[^0-9]") && !accountNumber.isEmpty()){
+        if(!accountNumber.matches("[0-9]*$") && !accountNumber.isEmpty()){
         	errorMessages.add("Account number can only contain numbers ");
         }else if(accountNumber.isEmpty()){
         	errorMessages.add("Account number cannot be empty");              
         }
         
         // Digital Certificate Issuer
-        if(digitalCIssuer.matches("[^a-zA-Z- ]") && !digitalCIssuer.isEmpty()){
+        if(!digitalCIssuer.matches("[a-zA-Z ]*$") && !digitalCIssuer.isEmpty()){
         	errorMessages.add("Certificate issuer cannot special characters");
         }else if(digitalCIssuer.isEmpty()){
         	errorMessages.add("Certificate issuer cannot be empty");              
         }
         
         // Digital Certificate URL/IP
-        if(!digitalCURL.matches("^localhost$|\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}") || digitalCURL.isEmpty()){
+        if(!digitalCURL.matches("^localhost$|^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$") || digitalCURL.isEmpty()){
         	errorMessages.add("Certificate issuer URl/IP is invalid");
         }
         
         // User Name
-        if(userName.matches("[^a-zA-Z0-9_-]") && !userName.isEmpty()){
+        if(!userName.matches("[a-zA-Z ]*$") && !userName.isEmpty()){
         	errorMessages.add("User name is invalid");
         }else if(userName.isEmpty()){
         	errorMessages.add("User name cannot be empty");              
@@ -437,105 +437,17 @@ public class RegistrationJFrame extends javax.swing.JFrame {
         }   
         
         // Password
-        if(!passTemp.matches("[a-zA-Z0-9_-]{8,15}")){
+        if(passTemp.length() < 8 || passTemp.length() > 15){
         	errorMessages.add("Password should be between 8 - 15 characters");
         }
         
         // Re-password
-        if(!passTemp2.matches("[a-zA-Z0-9_-]{8,15}")){
+        if(passTemp2.length() < 8 || passTemp2.length() > 15){
         	errorMessages.add("Re-password should be between 8 - 15 characters");
         }
         
         // Compare passwords
-        if(passTemp.compareTo(passTemp2)==0){ 
-	           if(password.length >= 8 && password.length <16)
-	           {
-	               if(pathFlag){
-	                   // prepare the user name and password.
-	                   userNameCode = userName.hashCode();
-	                        
-	                   if(password.length<16){
-	                     int pad = 16 - password.length;
-	                     
-	                     for(int i=0; i<pad; i++){
-	                       passTemp+=password[i];
-	                     }  
-	                   }
-	                   passwordCode = passTemp.hashCode();
-	                   
-	                   //For Test: JOptionPane.showMessageDialog(null,passTemp);
-	                   
-	                   //create a registeration object to save user registeration data
-	                   EChequeRegisteration registerationObj = new EChequeRegisteration();
-	                   registerationObj.setBankName(bankName);
-	                   registerationObj.setBankAddress(bankURL);
-	                   registerationObj.setClientName(clientName);
-	                   registerationObj.setAccountNumber(accountNumber);
-	                   registerationObj.setEWalletLoaction(eWalletPath);
-	                   registerationObj.setUsername(userNameCode);
-	                   registerationObj.setPasword(passwordCode);
-	                   
-	                   try {
-	                       ObjectOutputStream outObj; 
-	                       // create the user digital certificate (digital identity)
-	                       RSAGenerator keyGen = new RSAGenerator();
-	                       KeyPair RSAKeys = keyGen.GenerateRSAKeys();
-	                       
-	                       // encrypt private key with user password. 
-	                       outObj = new ObjectOutputStream(new FileOutputStream(eWalletPath+"\\Security Tools\\privateKey.key"));
-	                       outObj.writeObject(RSAKeys.getPrivate());
-	                       outObj.close();
-	                       
-	                       //create AES Key with user password and cipher  
-	                       AESCrypt aesCrypt = new AESCrypt();
-	                       Key AES128 = aesCrypt.inilizeAESKeyByPassword(passTemp);
-	                       Cipher cipher = aesCrypt.initializeCipher(AES128,0);
-	                       InputStream in = new FileInputStream(eWalletPath+"\\Security Tools\\privateKey.key");
-	                       OutputStream out = new FileOutputStream(eWalletPath+"\\Security Tools\\Private Key.key"); 
-	                       
-	                       // encrypt the private key with the AES key and delete the plain key
-	                       aesCrypt.crypt(in,out,cipher);
-	                       in.close();
-	                       out.close();
-	                       File control = new File(eWalletPath+"\\Security Tools\\privateKey.key");
-	                       control.delete();
-	                       
-	                       // create Digital certificate object.
-	                       DigitalCertificate dcObj = new DigitalCertificate();
-	                       dcObj.setHolderName(clientName);
-	                       dcObj.setIssuer(digitalCIssuer);
-	                       dcObj.setSubject(jCSubject.getSelectedItem().toString());
-	                       dcObj.setValidFrom(jCValidation.getSelectedItem().toString());
-	                       dcObj.setValidTo(jCValidation.getSelectedItem().toString());
-	                       dcObj.setPublicKey(RSAKeys.getPublic());
-	                       
-	                       // save the user digital certificate
-	                       DigitalCertificateIO dcIO = new DigitalCertificateIO();
-	                       dcIO.SaveDC(dcObj,eWalletPath+"\\Security Tools\\"+registerationObj.getClientName()+"DigCert.edc");
-	                       
-	                                                                           
-	                       //Connect to the bank server to activate the e-cheque account.
-	                       Runnable client = new EchequeClient(8189,0,registerationObj.getBankAddress(),registerationObj,
-	                               dcObj);
-	                       Thread t = new Thread(client);
-	                       t.start();
-	                       //JOptionPane.showMessageDialog(null,"Registeration Done\n\tYou have to restart your system","Confirm",
-	                               //JOptionPane.INFORMATION_MESSAGE);
-	                   }
-	                   catch(IOException exp){
-	                       JOptionPane.showMessageDialog(null,"Access Disk Media is not allowed", "System Error", JOptionPane.ERROR_MESSAGE);
-	                   }
-	                   catch (NoSuchAlgorithmException exp){
-	                       JOptionPane.showMessageDialog(null,"ONE of your Java Securiy Feature not available", "Platform Error", JOptionPane.ERROR_MESSAGE);
-	                   }
-	                   catch (Exception exp){
-	                       JOptionPane.showMessageDialog(null, exp.getMessage(), "Error Message", JOptionPane.ERROR_MESSAGE);
-	                   }  
-	               }else {
-	                   JOptionPane.showMessageDialog(null,"You have to create your e-wallet", "User Error", JOptionPane.ERROR_MESSAGE);      
-	               }
-	           }
-        }else{
+        if(passTemp.compareTo(passTemp2)!=0){ 
            	errorMessages.add("Passwords don't match");
         }  
 
@@ -545,7 +457,95 @@ public class RegistrationJFrame extends javax.swing.JFrame {
         
         if(!errorMessage.isEmpty()){
         	JOptionPane.showMessageDialog(null, errorMessage, "User Error", JOptionPane.ERROR_MESSAGE);
+        	return;
         }
+
+       if(password.length >= 8 && password.length <16){
+           if(pathFlag){
+               // prepare the user name and password.
+               userNameCode = userName.hashCode();
+                    
+               if(password.length<16){
+                 int pad = 16 - password.length;
+                 
+                 for(int i=0; i<pad; i++){
+                   passTemp+=password[i];
+                 }  
+               }
+               passwordCode = passTemp.hashCode();
+               
+               //For Test: JOptionPane.showMessageDialog(null,passTemp);
+               
+               //create a registeration object to save user registeration data
+               EChequeRegisteration registerationObj = new EChequeRegisteration();
+               registerationObj.setBankName(bankName);
+               registerationObj.setBankAddress(bankURL);
+               registerationObj.setClientName(clientName);
+               registerationObj.setAccountNumber(accountNumber);
+               registerationObj.setEWalletLoaction(eWalletPath);
+               registerationObj.setUsername(userNameCode);
+               registerationObj.setPasword(passwordCode);
+               
+               try {
+                   ObjectOutputStream outObj; 
+                   // create the user digital certificate (digital identity)
+                   RSAGenerator keyGen = new RSAGenerator();
+                   KeyPair RSAKeys = keyGen.GenerateRSAKeys();
+                   
+                   // encrypt private key with user password. 
+                   outObj = new ObjectOutputStream(new FileOutputStream(eWalletPath+"\\Security Tools\\privateKey.key"));
+                   outObj.writeObject(RSAKeys.getPrivate());
+                   outObj.close();
+                   
+                   //create AES Key with user password and cipher  
+                   AESCrypt aesCrypt = new AESCrypt();
+                   Key AES128 = aesCrypt.inilizeAESKeyByPassword(passTemp);
+                   Cipher cipher = aesCrypt.initializeCipher(AES128,0);
+                   InputStream in = new FileInputStream(eWalletPath+"\\Security Tools\\privateKey.key");
+                   OutputStream out = new FileOutputStream(eWalletPath+"\\Security Tools\\Private Key.key"); 
+                   
+                   // encrypt the private key with the AES key and delete the plain key
+                   aesCrypt.crypt(in,out,cipher);
+                   in.close();
+                   out.close();
+                   File control = new File(eWalletPath+"\\Security Tools\\privateKey.key");
+                   control.delete();
+                   
+                   // create Digital certificate object.
+                   DigitalCertificate dcObj = new DigitalCertificate();
+                   dcObj.setHolderName(clientName);
+                   dcObj.setIssuer(digitalCIssuer);
+                   dcObj.setSubject(jCSubject.getSelectedItem().toString());
+                   dcObj.setValidFrom(jCValidation.getSelectedItem().toString());
+                   dcObj.setValidTo(jCValidation.getSelectedItem().toString());
+                   dcObj.setPublicKey(RSAKeys.getPublic());
+                   
+                   // save the user digital certificate
+                   DigitalCertificateIO dcIO = new DigitalCertificateIO();
+                   dcIO.SaveDC(dcObj,eWalletPath+"\\Security Tools\\"+registerationObj.getClientName()+"DigCert.edc");
+                   
+                                                                       
+                   //Connect to the bank server to activate the e-cheque account.
+                   Runnable client = new EchequeClient(8189,0,registerationObj.getBankAddress(),registerationObj,
+                           dcObj);
+                   Thread t = new Thread(client);
+                   t.start();
+                   //JOptionPane.showMessageDialog(null,"Registeration Done\n\tYou have to restart your system","Confirm",
+                           //JOptionPane.INFORMATION_MESSAGE);
+               }
+               catch(IOException exp){
+                   JOptionPane.showMessageDialog(null,"Access Disk Media is not allowed", "System Error", JOptionPane.ERROR_MESSAGE);
+               }
+               catch (NoSuchAlgorithmException exp){
+                   JOptionPane.showMessageDialog(null,"ONE of your Java Securiy Feature not available", "Platform Error", JOptionPane.ERROR_MESSAGE);
+               }
+               catch (Exception exp){
+                   JOptionPane.showMessageDialog(null, exp.getMessage(), "Error Message", JOptionPane.ERROR_MESSAGE);
+               }  
+           }else {
+               JOptionPane.showMessageDialog(null,"You have to create your e-wallet", "User Error", JOptionPane.ERROR_MESSAGE);      
+           }
+       }
         
     }//GEN-LAST:event_jBRFRegisterMouseClicked
     
