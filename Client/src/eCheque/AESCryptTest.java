@@ -200,7 +200,7 @@ public class AESCryptTest extends TestCase {
 		cipher.init(Cipher.DECRYPT_MODE, key);
 		
 		// Create input and output streams. Input stream is encrypted version of the string "test"
-		InputStream in = new ByteArrayInputStream("—®yL…/—¹–zÔğµ#7".getBytes());
+		InputStream in = new ByteArrayInputStream("â€”Â®yLâ€¦/â€”Â¹â€“zÃ”Ã°Âµ#7".getBytes());
 		OutputStream out = new ByteArrayOutputStream();
 		
 		// Run crypt
@@ -223,9 +223,8 @@ public class AESCryptTest extends TestCase {
 		
 		// Run crypt
 		aesCrypt.crypt(in, out, cipher);
-		System.out.println(out.toString());
 		// Make sure we encrypted the correct string
-		assertEquals("}³É$?ß(_¥{&9ß¤/ŠAs¨Á7Úşs€9åTë.}", out.toString());
+		assertEquals("}Â³Ã‰$?ÃŸ(_Â¥{&9ÃŸÂ¤/Å AsÂ¨Ã7ÃšÃ¾sâ‚¬9Ã¥TÃ«.}", out.toString());
 	}
 	
 	@Test
